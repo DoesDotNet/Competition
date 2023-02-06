@@ -1,9 +1,9 @@
 using Competition.Api.Infrastructure;
 using Competition.Api.Infrastructure.Middleware;
-using Competition.Api.Services;
 using Microsoft.EntityFrameworkCore;
 using Shop.Application.Core.Commands;
 using Shop.Application.Core.Data;
+using Shop.Application.Core.Events;
 using Shop.Application.Core.Providers;
 using Shop.Application.Core.Queries;
 
@@ -22,9 +22,6 @@ public class Startup
         {
             opt.UseInMemoryDatabase("competition");
         });
-
-        services.AddTransient<GameService>();
-        
         
         // Commands
         services.Scan(scan => scan
@@ -53,6 +50,16 @@ public class Startup
         );
         
         services.AddSingleton<IQueryProcessor, QueryProcessor>();
+        
+        // Event
+        services.Scan(scan => scan
+            .FromAssemblyOf<IDomainEvent>()
+            .AddClasses(classes => classes.AssignableTo(typeof(IDomainEventHandler<>)))
+            .AsImplementedInterfaces()
+            .WithTransientLifetime()
+        );
+
+        services.AddSingleton<IDomainEventPublisher, DomainEventPublisher>();
         
         // External stuff
         services.AddSingleton<ISmsSender, PretendSmsProvider>();

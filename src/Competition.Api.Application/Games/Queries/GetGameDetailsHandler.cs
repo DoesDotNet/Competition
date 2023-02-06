@@ -16,6 +16,6 @@ public class GetGameDetailsHandler : IQueryHandler<GetGameDetails, Game>
     
     public async Task<Game?> Handle(GetGameDetails query, CancellationToken cancellationToken)
     {
-        return await _db.Games.FirstOrDefaultAsync(cancellationToken);
+        return await _db.Games.FirstOrDefaultAsync(x=>x.Id == query.Id, cancellationToken);
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace Shop.Application.Domain;
+﻿using Shop.Application.Games.Events;
+
+namespace Shop.Application.Domain;
 
 public class Game : Entity
 {
@@ -66,6 +68,8 @@ public class Game : Entity
             int index = random.Next(_entries.Count);
 
             Winner = _entries[index];
+            
+            AddEvent(new WinnerChosen(Id, Winner.Name, Winner.TelephoneNumber));
         }
     }
 }

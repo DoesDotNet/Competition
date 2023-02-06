@@ -8,10 +8,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Core\Cache" />
-    </ItemGroup>
-
-    <ItemGroup>
       <PackageReference Include="FluentValidation" Version="11.2.2" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.10" />
     </ItemGroup>

@@ -26,6 +26,11 @@ public class ExceptionMiddleware
             _logger.LogWarning($"Validation failed");
             await HandleValidationExceptionAsync(httpContext, ex);
         }
+        catch (NotFoundException ex)
+        {
+            _logger.LogWarning("Entity not found");
+            await HandleNotFoundAsync(httpContext, ex);
+        }
         catch (Exception ex)
         {
             _logger.LogError("Something went wrong: {Ex}", ex);
@@ -48,6 +53,25 @@ public class ExceptionMiddleware
         };
         
         problemDetails.Extensions.Add(new KeyValuePair<string, object?>("errors", exception.Errors));
+        
+        string data = JsonSerializer.Serialize(problemDetails);
+
+        return context.Response.WriteAsync(data);
+    }
+    
+    private static Task HandleNotFoundAsync(HttpContext context, NotFoundException exception)
+    {
+        context.Response.ContentType = "application/json";
+        context.Response.StatusCode = StatusCodes.Status404NotFound;
+
+        var problemDetails = new ProblemDetails
+        {
+            Title = "Not Found",
+            Detail = "Not found",
+            Status = StatusCodes.Status404NotFound,
+            Instance = context.Request.Path,
+            Type = "https://www.rfc-editor.org/rfc/rfc7231#section-6.5.4"
+        };
         
         string data = JsonSerializer.Serialize(problemDetails);
 

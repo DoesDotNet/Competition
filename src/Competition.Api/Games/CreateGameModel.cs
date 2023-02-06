@@ -1,4 +1,4 @@
-﻿namespace Competition.Api.Games.CreateGame;
+﻿namespace Competition.Api.Games;
 
 public class CreateGameModel
 {

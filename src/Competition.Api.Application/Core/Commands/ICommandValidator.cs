@@ -2,7 +2,7 @@ using FluentValidation.Results;
 
 namespace Shop.Application.Core.Commands;
 
-public interface ICommandValidator<in ICommand>
+public interface ICommandValidator<in TCommand>
 {
-    ValidationResult ValidateCommand(ICommand command);
+    Task<ValidationResult> ValidateCommand(TCommand command);
 }

@@ -1,6 +1,6 @@
-﻿namespace Competition.Api.Games.GetGame;
+﻿namespace Competition.Api.Games;
 
-public class GameModel
+public class GetGameResponse
 {
     public Guid Id { get; set; }
     public string Name { get; set; }

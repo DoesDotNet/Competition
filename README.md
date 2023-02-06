@@ -1,1 +1,3 @@
-# i-command
+# Competition
+
+Example of basic CQS implementation

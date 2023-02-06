@@ -12,6 +12,7 @@ public class ChooseWinnerValidator: BaseCommandValidator<ChooseWinner>
     public ChooseWinnerValidator(CompetitionDbContext db)
     {
         _db = db;
+        
         RuleFor(c => c.GameId)
             .NotEmpty()
             .MustAsync(CheckGameExistsAndIsLive)
